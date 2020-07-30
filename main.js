@@ -1,25 +1,28 @@
 import { ToyReact, Component } from "./toy-react"
 
+const data = new Array(9).fill(0)
 class Board extends Component {
   render() {
     return (
       <div className="board">
-        {new Array(9).fill(0).map((item, index) => (
-          <Square
-            value={index + 1}
-            onClick={() => this.setState({ value: "X" })}
-          />
+        {data.map((item, index) => (
+          <Square value={index + 1} />
         ))}
       </div>
     )
   }
 }
 class Square extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: null,
+    }
+  }
   render() {
-    const { onClick, value } = this.props
     return (
-      <button className="square" onClick={() => onClick(value)}>
-        {value}
+      <button className="square" onClick={() => this.setState({ value: "X" })}>
+        {this.state.value ? this.state.value : this.props.value}
       </button>
     )
   }

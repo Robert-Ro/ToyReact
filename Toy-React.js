@@ -1,6 +1,5 @@
 class ElementWrapper {
   constructor(type) {
-    // FIXME 构造range
     this.root = document.createElement(type)
   }
   setAttribute(name, value) {
@@ -11,19 +10,30 @@ class ElementWrapper {
     this.root.setAttribute(name, value)
   }
   appendChild(vchild) {
-    vchild.mountTo(this.range)
+    let range = document.createRange() // 代理根元素
+    if (this.root.children.length) {
+      // 判断root节点是否有子元素
+      range.setStartAfter(this.root.lastChild)
+      range.setEndAfter(this.root.lastChild)
+    } else {
+      range.setStart(this.root, 0)
+      range.setEnd(this.root, 0)
+    }
+    range.deleteContents()
+    vchild.mountTo(range)
   }
   mountTo(range) {
     range.deleteContents()
-    range.insertChildren(this.root)
+    range.insertNode(this.root)
   }
 }
 class TextWrapper {
   constructor(content) {
     this.root = document.createTextNode(content)
   }
-  mountTo(parent) {
-    parent.appendChild(this.root)
+  mountTo(range) {
+    range.deleteContents()
+    range.insertNode(this.root)
   }
 }
 export class Component {
@@ -36,10 +46,16 @@ export class Component {
     this.props[name] = value
   }
   mountTo(range) {
+    console.log("mount", range)
     this.range = range
     this.update()
   }
   update() {
+    const ph = document.createComment('ph')
+    let range = document.createRange()
+    range.setStart(this.range.endContainer, this.range.endOffset)
+    range.setEnd(this.range.endContainer, this.range.endOffset)
+    range.insertNode(ph)
     this.range.deleteContents()
     const vdom = this.render()
     vdom.mountTo(this.range)
@@ -64,13 +80,13 @@ export class Component {
       this.state = {}
     }
     merge(this.state, state)
-    console.log(this.state)
+    this.update()
   }
 }
 export let ToyReact = {
   createElement: function (type, attributes, ...children) {
     let element
-    console.log(arguments)
+    // console.log(arguments)
     if (typeof type === "string") {
       element = new ElementWrapper(type)
     } else {

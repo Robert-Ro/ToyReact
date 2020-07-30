@@ -22,6 +22,7 @@
   box-sizing: content-box;
   font-weight: bold;
   font-size: 22px;
+  float: left;
 }
 button {
   border: none;
