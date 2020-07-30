@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.game {
+  padding: 40px;
+}
+.board {
+  width: 121px;
+  height: 121px;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  font-size: 0;
+}
+.square {
+  display: inline-block;
+  width: 39px;
+  height: 39px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  box-sizing: content-box;
+  font-weight: bold;
+  font-size: 22px;
+}
+button {
+  border: none;
+}

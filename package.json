@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "webpack":"webpack"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@babel/plugin-transform-react-jsx": "^7.10.4",

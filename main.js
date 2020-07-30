@@ -1,34 +1,41 @@
-import { ToyReact, Component } from  './toy-react'
+import { ToyReact, Component } from "./toy-react"
+
 class Board extends Component {
-  renderSquare(i) {
-    return <Square value={i} />;
+  render() {
+    return (
+      <div className="board">
+        {new Array(9).fill(0).map((item, index) => (
+          <Square
+            value={index + 1}
+            onClick={() => this.setState({ value: "X" })}
+          />
+        ))}
+      </div>
+    )
   }
 }
 class Square extends Component {
   render() {
+    const { onClick, value } = this.props
     return (
-      <button className="square">
-        {this.props.value}
+      <button className="square" onClick={() => onClick(value)}>
+        {value}
       </button>
-    );
+    )
   }
 }
 
-
-class MyComponent extends Component{
-  render(){
-    return <div><span>hello</span><span>hello</span>
-    <div>
-      {true}
-      {this.children}
-    </div>
-    </div>
+class Game extends Component {
+  render() {
+    return (
+      <div className="game">
+        <p>Next Player: </p>
+        <Board />
+      </div>
+    )
   }
 }
 
+const game = <Game />
 
-let b = <MyComponent id="b" name="idb">
-  <div>a</div>
-</MyComponent>
-
-ToyReact.render(b, document.body)
+ToyReact.render(game, document.body)
